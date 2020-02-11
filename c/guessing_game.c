@@ -5,7 +5,7 @@
 #include <ctype.h> // For detecting whitespace and making stuff lowercase.
 
 #define MAX 256 // The size of out input buffer.
-#define EVER (;;) // :-)
+#define forever for (;;)
 
 int is_no(char* input) { // checks if the input is "no-y"
     int len = strlen(input); // gets the length of the string
@@ -29,7 +29,7 @@ int main() {
     char buf[MAX]; // The char buffer we will use for reading user input.
     char* eptr; // This is a pointer to the remaining charactes after a number has been parsed.
 
-    for EVER { 
+    forever { 
         int num = rand() % 100 + 1;
         int guess = -1;
 
