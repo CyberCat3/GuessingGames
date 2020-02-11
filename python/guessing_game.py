@@ -13,10 +13,8 @@ while True:
             print("Please type a number!")
             continue
         
-        if guess < target:
-            print("Higher!")
-        elif guess > target:
-            print("Lower!")
+        if   guess < target: print("Higher!")
+        elif guess > target: print("Lower!")
 
     print("You guessed it!")
 
