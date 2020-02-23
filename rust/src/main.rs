@@ -1,22 +1,21 @@
-extern crate rand;
-
-use rand::Rng;
+use rand::{thread_rng, Rng};
 use std::io::{stdin, stdout, Write};
 
 fn main() {
-    // Our rng
-    let mut rng = rand::thread_rng();
+    let mut rng = thread_rng(); // our random number generator.
+    let mut line = String::new(); // our string buffer for reading user input.
 
     loop {
-        // Generates a random number between 0 and 100.
-        let random_number = rng.gen_range(1, 101);
-
         println!("Guess a number between 1 - 100!");
-        loop {
-            print_and_flush("Guess: ");
+        let target = rng.gen_range(1, 101); // low: inclusive, high: exclusive
 
-            // Reads a line from stdin and parses it, trim is necessary to remove \n
-            let guess: u32 = match read_line().trim().parse() {
+        loop {
+            print!("Guess: ");
+            stdout().flush().unwrap(); // need the flush after print!
+            line.clear(); // clear the buffer so it doesn't accumulate
+            stdin().read_line(&mut line).unwrap(); // read a line from stdin into our string buffer
+
+            let guess: i32 = match line.trim().parse() { // parse the input
                 Ok(num) => num,
                 Err(_) => {
                     println!("Please type a number!");
@@ -24,37 +23,21 @@ fn main() {
                 }
             };
 
-            if guess < random_number { println!("Higher!"); }
-            else if guess > random_number { println!("Lower!"); }
-            else {
-                println!("You guessed it!");
-                break;
-            }
+            if      guess < target  { println!("Higher!"); }
+            else if guess > target  { println!("Lower!");  }
+            else if guess == target { break;               }
         }
 
+        println!("You guessed it!");
         println!("Play again?");
-        print_and_flush("(Y/n): ");
-        // reads a line, trims it, makes it lowercase,
-        // gets the first character, then checks if it's 'n',
-        // and if it is, stops the game.
-        if read_line().trim().to_lowercase().chars().nth(0).unwrap() == 'n' {
+        print!("(Y/n): ");
+        stdout().flush().unwrap();
+
+        line.clear();
+        stdin().read_line(&mut line).unwrap();
+
+        if line.trim_start().to_lowercase().starts_with("n") {
             break;
         }
     }
-}
-
-fn print_and_flush(input: &str) {
-    print!("{}", &input);
-    // stdout flushes automatically on \n, so we need to do it manually.
-    stdout().flush().expect("Couldn't flush stdout");
-}
-
-fn read_line() -> String {
-    // Creates a string buffer for reading stdin.
-    let mut string_buffer = String::new();
-
-    // reads a line from stdin in puts it into our buffer.
-    // If we can't read a line, let's just crash the entire program.
-    stdin().read_line(&mut string_buffer).expect("Couldn't read line");
-    string_buffer // implicit return
 }
