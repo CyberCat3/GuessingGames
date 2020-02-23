@@ -1,1 +1,0 @@
-go build -o guessing_game.exe

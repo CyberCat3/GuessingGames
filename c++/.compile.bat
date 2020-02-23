@@ -1,1 +1,0 @@
-g++ -O3 guessing_game.cpp -o guessing_game.exe

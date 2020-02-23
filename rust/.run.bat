@@ -1,1 +1,0 @@
-start target/release/rust_guessing_game.exe

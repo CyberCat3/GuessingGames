@@ -1,1 +1,0 @@
-gcc -O3 guessing_game.c -o guessing_game.exe
